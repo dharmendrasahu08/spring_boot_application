@@ -6,5 +6,6 @@ import com.dk.product.model.ProductType;
 
 public interface ProductTypeService {
 	
-	public List<ProductType> getProductTypes();
+	List<ProductType> getProductTypes();
+	int saveProductType(ProductType productType);
 }

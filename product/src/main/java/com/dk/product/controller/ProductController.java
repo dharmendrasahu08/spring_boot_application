@@ -15,14 +15,24 @@ import com.dk.product.service.ProductTypeService;
 @Controller
 public class ProductController {
 
-	@Autowired
-	private ProductTypeService productTypeService;
-	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ResponseEntity<List<ProductType>> userDetails() {
+    @Autowired
+    private ProductTypeService productTypeService;
+    
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public ResponseEntity<List<ProductType>> getProductType() {
         
-		List<ProductType> userDetails = productTypeService.getProductTypes();
-		return new ResponseEntity<List<ProductType>>(userDetails, HttpStatus.OK);
-	}
+        List<ProductType> productTypes = productTypeService.getProductTypes();
+        return new ResponseEntity<List<ProductType>>(productTypes, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/save", method = RequestMethod.GET)
+    public ResponseEntity<List<ProductType>> saveProductType() {
+        ProductType proudctType = new ProductType();
+        proudctType.setId(3);
+        proudctType.setName("APPLE");
+        proudctType.setDescription("DESCRIPTION APPLE");
+        int id = productTypeService.saveProductType(proudctType);
+        return new ResponseEntity(id, HttpStatus.OK);
+    }
 
 }

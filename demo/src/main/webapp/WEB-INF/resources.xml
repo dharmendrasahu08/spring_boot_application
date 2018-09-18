@@ -1,0 +1,21 @@
+<resources>
+    <!-- resource definition using the Hikari Connection Pool -->
+    <Service id="johnzon" class-name="org.apache.johnzon.jaxrs.ConfigurableJohnzonProvider">
+    # 1M
+    maxSize = 1048576
+    bufferSize = 1048576
+ 
+  
+ 
+    # Additional types to ignore
+    ignores = org.apache.cxf.jaxrs.ext.multipart.MultipartBody
+  </Service>
+ 
+     <!-- Resource id="ClientdDB" class-name="com.zaxxer.hikari.HikariDataSource">
+        jdbcUrl jdbc:derby://localhost:1527/EmbeddedDB;create=true
+        username ops
+        password opspwd
+        databaseName EmbeddedDB
+        driverClassName org.apache.derby.jdbc.ClientDriver
+    </Resource -->
+</resources>

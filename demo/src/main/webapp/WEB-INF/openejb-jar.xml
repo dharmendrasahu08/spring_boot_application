@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   The ApiFest Client (com.apifest:apifest-client) uses the RestEasy client for making
+   calls to the OAuthServer. It does this via the use of a proxy class. This proxy class
+   (com.apifest.client.OAuthServer) ooks like a server side definition of a hosted
+   service and tomee attempts to start it automatically upon startup. However, it defines
+   the following annotations:
+
+    @Path("/tokens")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+
+    and the CXF RS service aborts startup as the MediaType.APPLICATION_FORM_URLENCODED is
+    not a server-sde provider.
+
+    See: https://rmannibucau.wordpress.com/2015/04/16/jax-rs-2-ensure-your-server-providers-are-not-used-on-client-side/
+
+    Can also try setting: openejb.jaxrs.fail-on-constrainedto
+
+    The following configuration disables the scanning of the "jaxrs-application". This is
+    the default JAX-RS Application for those components not registered to another
+    application.
+
+    // TODO: attempt to constrain skip-provider-scanning
+    This solution is probably too broad. We should see if adding an application class
+    and registering com.apifest.client.OAuthServer to it achieves the same, but more
+    targetted result. In this case the class-name would be the name of this new JAX-RS
+    application.
+-->
+
+<openejb-jar>
+    <pojo-deployment class-name="jaxrs-application">
+        <properties>
+            # optional but requires to skip scanned providers if set to true
+            cxf.jaxrs.skip-provider-scanning = true
+             cxf.jaxrs.providers = johnzon,org.apache.openejb.server.cxf.rs.EJBAccessExceptionMapper
+        </properties>
+    </pojo-deployment>
+</openejb-jar>
+
